@@ -35,8 +35,8 @@ import org.springframework.aop.IntroductionInfo;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.target.EmptyTargetSource;
-import org.springframework.aop.target.SingletonTargetSource;
+//import org.springframework.aop.target.EmptyTargetSource;
+//import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -68,7 +68,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 * Canonical TargetSource when there's no target, and behavior is
 	 * supplied by the advisors.
 	 */
-	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
+	public static final TargetSource EMPTY_TARGET_SOURCE=null;
+//	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
 
 
 	/** Package-protected to allow direct access for efficiency */
@@ -123,10 +124,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 * Set the given object as target.
 	 * Will create a SingletonTargetSource for the object.
 	 * @see #setTargetSource
-	 * @see org.springframework.aop.target.SingletonTargetSource
 	 */
 	public void setTarget(Object target) {
-		setTargetSource(new SingletonTargetSource(target));
+//		setTargetSource(new SingletonTargetSource(target));
 	}
 
 	@Override
@@ -142,7 +142,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/**
 	 * Set a target class to be proxied, indicating that the proxy
 	 * should be castable to the given class.
-	 * <p>Internally, an {@link org.springframework.aop.target.EmptyTargetSource}
 	 * for the given target class will be used. The kind of proxy needed
 	 * will be determined on actual creation of the proxy.
 	 * <p>This is a replacement for setting a "targetSource" or "target",
@@ -152,9 +151,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 * @see #setTargetSource
 	 * @see #setTarget
 	 */
-	public void setTargetClass(@Nullable Class<?> targetClass) {
-		this.targetSource = EmptyTargetSource.forClass(targetClass);
-	}
+//	public void setTargetClass(@Nullable Class<?> targetClass) {
+//		this.targetSource = EmptyTargetSource.forClass(targetClass);
+//	}
 
 	@Override
 	@Nullable
@@ -533,11 +532,11 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	AdvisedSupport getConfigurationOnlyCopy() {
 		AdvisedSupport copy = new AdvisedSupport();
 		copy.copyFrom(this);
-		copy.targetSource = EmptyTargetSource.forClass(getTargetClass(), getTargetSource().isStatic());
-		copy.advisorChainFactory = this.advisorChainFactory;
-		copy.interfaces = this.interfaces;
-		copy.advisors = this.advisors;
-		copy.updateAdvisorArray();
+//		copy.targetSource = EmptyTargetSource.forClass(getTargetClass(), getTargetSource().isStatic());
+//		copy.advisorChainFactory = this.advisorChainFactory;
+//		copy.interfaces = this.interfaces;
+//		copy.advisors = this.advisors;
+//		copy.updateAdvisorArray();
 		return copy;
 	}
 

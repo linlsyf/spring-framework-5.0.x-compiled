@@ -28,7 +28,7 @@ import javax.management.remote.JMXServiceURL;
 
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.aop.target.AbstractLazyCreationTargetSource;
+//import org.springframework.aop.target.AbstractLazyCreationTargetSource;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -70,8 +70,8 @@ public class MBeanServerConnectionFactoryBean
 	@Nullable
 	private MBeanServerConnection connection;
 
-	@Nullable
-	private JMXConnectorLazyInitTargetSource connectorTargetSource;
+//	@Nullable
+//	private JMXConnectorLazyInitTargetSource connectorTargetSource;
 
 
 	/**
@@ -146,13 +146,13 @@ public class MBeanServerConnectionFactoryBean
 	 * Creates lazy proxies for the {@code JMXConnector} and {@code MBeanServerConnection}
 	 */
 	private void createLazyConnection() {
-		this.connectorTargetSource = new JMXConnectorLazyInitTargetSource();
-		TargetSource connectionTargetSource = new MBeanServerConnectionLazyInitTargetSource();
-
-		this.connector = (JMXConnector)
-				new ProxyFactory(JMXConnector.class, this.connectorTargetSource).getProxy(this.beanClassLoader);
-		this.connection = (MBeanServerConnection)
-				new ProxyFactory(MBeanServerConnection.class, connectionTargetSource).getProxy(this.beanClassLoader);
+//		this.connectorTargetSource = new JMXConnectorLazyInitTargetSource();
+//		TargetSource connectionTargetSource = new MBeanServerConnectionLazyInitTargetSource();
+//
+//		this.connector = (JMXConnector)
+//				new ProxyFactory(JMXConnector.class, this.connectorTargetSource).getProxy(this.beanClassLoader);
+//		this.connection = (MBeanServerConnection)
+//				new ProxyFactory(MBeanServerConnection.class, connectionTargetSource).getProxy(this.beanClassLoader);
 	}
 
 
@@ -178,10 +178,10 @@ public class MBeanServerConnectionFactoryBean
 	 */
 	@Override
 	public void destroy() throws IOException {
-		if (this.connector != null &&
-				(this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
-			this.connector.close();
-		}
+//		if (this.connector != null &&
+//				(this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
+//			this.connector.close();
+//		}
 	}
 
 
@@ -191,36 +191,36 @@ public class MBeanServerConnectionFactoryBean
 	 * @see MBeanServerConnectionFactoryBean#setServiceUrl(String)
 	 * @see MBeanServerConnectionFactoryBean#setEnvironment(java.util.Properties)
 	 */
-	private class JMXConnectorLazyInitTargetSource extends AbstractLazyCreationTargetSource {
-
-		@Override
-		protected Object createObject() throws Exception {
-			Assert.state(serviceUrl != null, "No JMXServiceURL set");
-			return JMXConnectorFactory.connect(serviceUrl, environment);
-		}
-
-		@Override
-		public Class<?> getTargetClass() {
-			return JMXConnector.class;
-		}
-	}
+//	private class JMXConnectorLazyInitTargetSource extends AbstractLazyCreationTargetSource {
+//
+//		@Override
+//		protected Object createObject() throws Exception {
+//			Assert.state(serviceUrl != null, "No JMXServiceURL set");
+//			return JMXConnectorFactory.connect(serviceUrl, environment);
+//		}
+//
+//		@Override
+//		public Class<?> getTargetClass() {
+//			return JMXConnector.class;
+//		}
+//	}
 
 
 	/**
 	 * Lazily creates an {@code MBeanServerConnection}.
 	 */
-	private class MBeanServerConnectionLazyInitTargetSource extends AbstractLazyCreationTargetSource {
-
-		@Override
-		protected Object createObject() throws Exception {
-			Assert.state(connector != null, "JMXConnector not initialized");
-			return connector.getMBeanServerConnection();
-		}
-
-		@Override
-		public Class<?> getTargetClass() {
-			return MBeanServerConnection.class;
-		}
-	}
+//	private class MBeanServerConnectionLazyInitTargetSource extends AbstractLazyCreationTargetSource {
+//
+////		@Override
+////		protected Object createObject() throws Exception {
+////			Assert.state(connector != null, "JMXConnector not initialized");
+////			return connector.getMBeanServerConnection();
+////		}
+////
+////		@Override
+////		public Class<?> getTargetClass() {
+////			return MBeanServerConnection.class;
+////		}
+//	}
 
 }

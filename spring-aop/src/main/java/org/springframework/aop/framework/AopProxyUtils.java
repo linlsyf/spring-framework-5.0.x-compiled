@@ -25,7 +25,7 @@ import org.springframework.aop.SpringProxy;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.support.AopUtils;
-import org.springframework.aop.target.SingletonTargetSource;
+//import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.core.DecoratingProxy;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -47,19 +47,18 @@ public abstract class AopProxyUtils {
 	/**
 	 * Obtain the singleton target object behind the given proxy, if any.
 	 * @param candidate the (potential) proxy to check
-	 * @return the singleton target object managed in a {@link SingletonTargetSource},
+	 * @return the singleton target object managed in a {@link},
 	 * or {@code null} in any other case (not a proxy, not an existing singleton target)
 	 * @since 4.3.8
 	 * @see Advised#getTargetSource()
-	 * @see SingletonTargetSource#getTarget()
 	 */
 	@Nullable
 	public static Object getSingletonTarget(Object candidate) {
 		if (candidate instanceof Advised) {
 			TargetSource targetSource = ((Advised) candidate).getTargetSource();
-			if (targetSource instanceof SingletonTargetSource) {
-				return ((SingletonTargetSource) targetSource).getTarget();
-			}
+//			if (targetSource instanceof SingletonTargetSource) {
+//				return ((SingletonTargetSource) targetSource).getTarget();
+//			}
 		}
 		return null;
 	}

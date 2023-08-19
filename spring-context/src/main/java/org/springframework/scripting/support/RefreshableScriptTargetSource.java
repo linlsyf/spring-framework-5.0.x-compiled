@@ -16,14 +16,13 @@
 
 package org.springframework.scripting.support;
 
-import org.springframework.aop.target.dynamic.BeanFactoryRefreshableTargetSource;
+//import org.springframework.aop.target.dynamic.BeanFactoryRefreshableTargetSource;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.scripting.ScriptFactory;
 import org.springframework.scripting.ScriptSource;
 import org.springframework.util.Assert;
 
 /**
- * Subclass of {@link BeanFactoryRefreshableTargetSource} that determines whether
  * a refresh is required through the given {@link ScriptFactory}.
  *
  * @author Rob Harrop
@@ -31,7 +30,8 @@ import org.springframework.util.Assert;
  * @author Mark Fisher
  * @since 2.0
  */
-public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetSource {
+public class RefreshableScriptTargetSource {
+//public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetSource {
 
 	private final ScriptFactory scriptFactory;
 
@@ -52,7 +52,7 @@ public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetS
 	public RefreshableScriptTargetSource(BeanFactory beanFactory, String beanName,
 			ScriptFactory scriptFactory, ScriptSource scriptSource, boolean isFactoryBean) {
 
-		super(beanFactory, beanName);
+//		super(beanFactory, beanName);
 		Assert.notNull(scriptFactory, "ScriptFactory must not be null");
 		Assert.notNull(scriptSource, "ScriptSource must not be null");
 		this.scriptFactory = scriptFactory;
@@ -66,7 +66,7 @@ public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetS
 	 * ScriptFactory's {@code requiresScriptedObjectRefresh} method.
 	 * @see ScriptFactory#requiresScriptedObjectRefresh(ScriptSource)
 	 */
-	@Override
+//	@Override
 	protected boolean requiresRefresh() {
 		return this.scriptFactory.requiresScriptedObjectRefresh(this.scriptSource);
 	}
@@ -74,10 +74,10 @@ public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetS
 	/**
 	 * Obtain a fresh target object, retrieving a FactoryBean if necessary.
 	 */
-	@Override
-	protected Object obtainFreshBean(BeanFactory beanFactory, String beanName) {
-		return super.obtainFreshBean(beanFactory,
-				(this.isFactoryBean ? BeanFactory.FACTORY_BEAN_PREFIX + beanName : beanName));
-	}
+//	@Override
+//	protected Object obtainFreshBean(BeanFactory beanFactory, String beanName) {
+//		return super.obtainFreshBean(beanFactory,
+//				(this.isFactoryBean ? BeanFactory.FACTORY_BEAN_PREFIX + beanName : beanName));
+//	}
 
 }

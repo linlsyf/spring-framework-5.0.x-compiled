@@ -1,9 +1,9 @@
 package com.study.demo;
 
-import com.sun.xml.internal.txw2.output.IndentingXMLFilter;
+//import com.sun.xml.internal.txw2.output.IndentingXMLFilter;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 /**

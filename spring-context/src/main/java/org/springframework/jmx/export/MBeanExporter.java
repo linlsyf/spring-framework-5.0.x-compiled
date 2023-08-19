@@ -41,7 +41,7 @@ import javax.management.modelmbean.RequiredModelMBean;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.aop.support.AopUtils;
-import org.springframework.aop.target.LazyInitTargetSource;
+//import org.springframework.aop.target.LazyInitTargetSource;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -582,7 +582,6 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	 * @throws MBeanExportException if the export failed
 	 * @see #setBeans
 	 * @see #registerBeanInstance
-	 * @see #registerLazyInit
 	 */
 	protected ObjectName registerBeanNameOrInstance(Object mapValue, String beanKey) throws MBeanExportException {
 		try {
@@ -592,17 +591,17 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 					throw new MBeanExportException("Cannot resolve bean names if not running in a BeanFactory");
 				}
 				String beanName = (String) mapValue;
-				if (isBeanDefinitionLazyInit(this.beanFactory, beanName)) {
-					ObjectName objectName = registerLazyInit(beanName, beanKey);
-					replaceNotificationListenerBeanNameKeysIfNecessary(beanName, objectName);
-					return objectName;
-				}
-				else {
+//				if (isBeanDefinitionLazyInit(this.beanFactory, beanName)) {
+//					ObjectName objectName = registerLazyInit(beanName, beanKey);
+//					replaceNotificationListenerBeanNameKeysIfNecessary(beanName, objectName);
+//					return objectName;
+//				}
+//				else {
 					Object bean = this.beanFactory.getBean(beanName);
 					ObjectName objectName = registerBeanInstance(bean, beanKey);
 					replaceNotificationListenerBeanNameKeysIfNecessary(beanName, objectName);
 					return objectName;
-				}
+//				}
 			}
 			else {
 				// Plain bean instance -> register it directly.
@@ -691,50 +690,50 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	 * @return the {@code ObjectName} under which the bean was registered
 	 * with the {@code MBeanServer}
 	 */
-	private ObjectName registerLazyInit(String beanName, String beanKey) throws JMException {
-		Assert.state(this.beanFactory != null, "No BeanFactory set");
-
-		ProxyFactory proxyFactory = new ProxyFactory();
-		proxyFactory.setProxyTargetClass(true);
-		proxyFactory.setFrozen(true);
-
-		if (isMBean(this.beanFactory.getType(beanName))) {
-			// A straight MBean... Let's create a simple lazy-init CGLIB proxy for it.
-			LazyInitTargetSource targetSource = new LazyInitTargetSource();
-			targetSource.setTargetBeanName(beanName);
-			targetSource.setBeanFactory(this.beanFactory);
-			proxyFactory.setTargetSource(targetSource);
-
-			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
-			ObjectName objectName = getObjectName(proxy, beanKey);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Located MBean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
-						objectName + "]");
-			}
-			doRegister(proxy, objectName);
-			return objectName;
-		}
-
-		else {
-			// A simple bean... Let's create a lazy-init ModelMBean proxy with notification support.
-			NotificationPublisherAwareLazyTargetSource targetSource = new NotificationPublisherAwareLazyTargetSource();
-			targetSource.setTargetBeanName(beanName);
-			targetSource.setBeanFactory(this.beanFactory);
-			proxyFactory.setTargetSource(targetSource);
-
-			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
-			ObjectName objectName = getObjectName(proxy, beanKey);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Located simple bean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
-						objectName + "]");
-			}
-			ModelMBean mbean = createAndConfigureMBean(proxy, beanKey);
-			targetSource.setModelMBean(mbean);
-			targetSource.setObjectName(objectName);
-			doRegister(mbean, objectName);
-			return objectName;
-		}
-	}
+//	private ObjectName registerLazyInit(String beanName, String beanKey) throws JMException {
+//		Assert.state(this.beanFactory != null, "No BeanFactory set");
+//
+//		ProxyFactory proxyFactory = new ProxyFactory();
+//		proxyFactory.setProxyTargetClass(true);
+//		proxyFactory.setFrozen(true);
+//
+//		if (isMBean(this.beanFactory.getType(beanName))) {
+//			// A straight MBean... Let's create a simple lazy-init CGLIB proxy for it.
+//			LazyInitTargetSource targetSource = new LazyInitTargetSource();
+//			targetSource.setTargetBeanName(beanName);
+//			targetSource.setBeanFactory(this.beanFactory);
+//			proxyFactory.setTargetSource(targetSource);
+//
+//			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
+//			ObjectName objectName = getObjectName(proxy, beanKey);
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("Located MBean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
+//						objectName + "]");
+//			}
+//			doRegister(proxy, objectName);
+//			return objectName;
+//		}
+//
+//		else {
+//			// A simple bean... Let's create a lazy-init ModelMBean proxy with notification support.
+//			NotificationPublisherAwareLazyTargetSource targetSource = new NotificationPublisherAwareLazyTargetSource();
+//			targetSource.setTargetBeanName(beanName);
+//			targetSource.setBeanFactory(this.beanFactory);
+//			proxyFactory.setTargetSource(targetSource);
+//
+//			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
+//			ObjectName objectName = getObjectName(proxy, beanKey);
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("Located simple bean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
+//						objectName + "]");
+//			}
+//			ModelMBean mbean = createAndConfigureMBean(proxy, beanKey);
+//			targetSource.setModelMBean(mbean);
+//			targetSource.setObjectName(objectName);
+//			doRegister(mbean, objectName);
+//			return objectName;
+//		}
+//	}
 
 	/**
 	 * Retrieve the {@code ObjectName} for a bean.
@@ -1075,45 +1074,44 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 
 	/**
-	 * Extension of {@link LazyInitTargetSource} that will inject a
 	 * {@link org.springframework.jmx.export.notification.NotificationPublisher}
 	 * into the lazy resource as it is created if required.
 	 */
-	@SuppressWarnings("serial")
-	private class NotificationPublisherAwareLazyTargetSource extends LazyInitTargetSource {
-
-		@Nullable
-		private ModelMBean modelMBean;
-
-		@Nullable
-		private ObjectName objectName;
-
-		public void setModelMBean(ModelMBean modelMBean) {
-			this.modelMBean = modelMBean;
-		}
-
-		public void setObjectName(ObjectName objectName) {
-			this.objectName = objectName;
-		}
-
-		@Override
-		@Nullable
-		public Object getTarget() {
-			try {
-				return super.getTarget();
-			}
-			catch (RuntimeException ex) {
-				if (logger.isWarnEnabled()) {
-					logger.warn("Failed to retrieve target for JMX-exposed bean [" + this.objectName + "]: " + ex);
-				}
-				throw ex;
-			}
-		}
-
-		@Override
-		protected void postProcessTargetObject(Object targetObject) {
-			injectNotificationPublisherIfNecessary(targetObject, this.modelMBean, this.objectName);
-		}
-	}
+//	@SuppressWarnings("serial")
+//	private class NotificationPublisherAwareLazyTargetSource extends LazyInitTargetSource {
+//
+//		@Nullable
+//		private ModelMBean modelMBean;
+//
+//		@Nullable
+//		private ObjectName objectName;
+//
+//		public void setModelMBean(ModelMBean modelMBean) {
+//			this.modelMBean = modelMBean;
+//		}
+//
+//		public void setObjectName(ObjectName objectName) {
+//			this.objectName = objectName;
+//		}
+//
+//		@Override
+//		@Nullable
+//		public Object getTarget() {
+//			try {
+//				return super.getTarget();
+//			}
+//			catch (RuntimeException ex) {
+//				if (logger.isWarnEnabled()) {
+//					logger.warn("Failed to retrieve target for JMX-exposed bean [" + this.objectName + "]: " + ex);
+//				}
+//				throw ex;
+//			}
+//		}
+//
+//		@Override
+//		protected void postProcessTargetObject(Object targetObject) {
+//			injectNotificationPublisherIfNecessary(targetObject, this.modelMBean, this.objectName);
+//		}
+//	}
 
 }

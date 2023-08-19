@@ -22,7 +22,7 @@ import org.springframework.aop.framework.AopInfrastructureBean;
 import org.springframework.aop.framework.ProxyConfig;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
-import org.springframework.aop.target.SimpleBeanTargetSource;
+//import org.springframework.aop.target.SimpleBeanTargetSource;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
@@ -56,7 +56,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		implements FactoryBean<Object>, BeanFactoryAware, AopInfrastructureBean {
 
 	/** The TargetSource that manages scoping */
-	private final SimpleBeanTargetSource scopedTargetSource = new SimpleBeanTargetSource();
+//	private final SimpleBeanTargetSource scopedTargetSource = new SimpleBeanTargetSource();
 
 	/** The name of the target bean */
 	@Nullable
@@ -80,7 +80,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 	 */
 	public void setTargetBeanName(String targetBeanName) {
 		this.targetBeanName = targetBeanName;
-		this.scopedTargetSource.setTargetBeanName(targetBeanName);
+//		this.scopedTargetSource.setTargetBeanName(targetBeanName);
 	}
 
 	@Override
@@ -90,11 +90,11 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		}
 		ConfigurableBeanFactory cbf = (ConfigurableBeanFactory) beanFactory;
 
-		this.scopedTargetSource.setBeanFactory(beanFactory);
+//		this.scopedTargetSource.setBeanFactory(beanFactory);
 
 		ProxyFactory pf = new ProxyFactory();
 		pf.copyFrom(this);
-		pf.setTargetSource(this.scopedTargetSource);
+//		pf.setTargetSource(this.scopedTargetSource);
 
 		Assert.notNull(this.targetBeanName, "Property 'targetBeanName' is required");
 		Class<?> beanType = beanFactory.getType(this.targetBeanName);
@@ -107,8 +107,8 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		}
 
 		// Add an introduction that implements only the methods on ScopedObject.
-		ScopedObject scopedObject = new DefaultScopedObject(cbf, this.scopedTargetSource.getTargetBeanName());
-		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));
+//		ScopedObject scopedObject = new DefaultScopedObject(cbf, this.scopedTargetSource.getTargetBeanName());
+//		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));
 
 		// Add the AopInfrastructureBean marker to indicate that the scoped proxy
 		// itself is not subject to auto-proxying! Only its target bean is.
@@ -131,7 +131,8 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		if (this.proxy != null) {
 			return this.proxy.getClass();
 		}
-		return this.scopedTargetSource.getTargetClass();
+		return null;
+//		return this.scopedTargetSource.getTargetClass();
 	}
 
 	@Override

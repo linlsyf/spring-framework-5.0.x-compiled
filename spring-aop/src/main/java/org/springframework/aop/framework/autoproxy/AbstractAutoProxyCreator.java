@@ -38,7 +38,6 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.ProxyProcessorSupport;
 import org.springframework.aop.framework.adapter.AdvisorAdapterRegistry;
 import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
-import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.BeanFactory;
@@ -78,7 +77,7 @@ import org.springframework.util.StringUtils;
  * a custom target source: for example, to pool prototype objects. Auto-proxying will
  * occur even if there is no advice, as long as a TargetSourceCreator specifies a custom
  * {@link org.springframework.aop.TargetSource}. If there are no TargetSourceCreators set,
- * or if none matches, a {@link org.springframework.aop.target.SingletonTargetSource}
+// * or if none matches, a {@link org.springframework.aop}
  * will be used by default to wrap the target bean instance.
  *
  * @author Juergen Hoeller
@@ -168,7 +167,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 	/**
 	 * Set custom {@code TargetSourceCreators} to be applied in this order.
-	 * If the list is empty, or they all return null, a {@link SingletonTargetSource}
+	 * If the list is empty, or they all return null, a {@link }
 	 * will be created for each bean.
 	 * <p>Note that TargetSourceCreators will kick in even for target beans
 	 * where no advices or advisors have been found. If a {@code TargetSourceCreator}
@@ -348,13 +347,13 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 		// Create proxy if we have advice.
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
-		if (specificInterceptors != DO_NOT_PROXY) {
-			this.advisedBeans.put(cacheKey, Boolean.TRUE);
-			Object proxy = createProxy(
-					bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));
-			this.proxyTypes.put(cacheKey, proxy.getClass());
-			return proxy;
-		}
+//		if (specificInterceptors != DO_NOT_PROXY) {
+//			this.advisedBeans.put(cacheKey, Boolean.TRUE);
+//			Object proxy = createProxy(
+//					bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));
+//			this.proxyTypes.put(cacheKey, proxy.getClass());
+//			return proxy;
+//		}
 
 		this.advisedBeans.put(cacheKey, Boolean.FALSE);
 		return bean;

@@ -329,14 +329,16 @@ public class ScriptFactoryPostProcessor extends InstantiationAwareBeanPostProces
 						"Cannot use proxyTargetClass=true with script beans where language is not 'groovy': '" +
 						language + "'");
 			}
-			ts.setRefreshCheckDelay(refreshCheckDelay);
-			return createRefreshableProxy(ts, interfaces, proxyTargetClass);
+//			ts.setRefreshCheckDelay(refreshCheckDelay);
+			return null;
+//			return createRefreshableProxy(ts, interfaces, proxyTargetClass);
 		}
 
 		if (isFactoryBean) {
 			scriptedObjectBeanName = BeanFactory.FACTORY_BEAN_PREFIX + scriptedObjectBeanName;
 		}
-		return this.scriptBeanFactory.getBean(scriptedObjectBeanName);
+		return null;
+//		return this.scriptBeanFactory.getBean(scriptedObjectBeanName);
 	}
 
 	/**

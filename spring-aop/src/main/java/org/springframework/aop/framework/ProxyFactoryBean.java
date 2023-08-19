@@ -35,7 +35,7 @@ import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.adapter.AdvisorAdapterRegistry;
 import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
 import org.springframework.aop.framework.adapter.UnknownAdviceTypeException;
-import org.springframework.aop.target.SingletonTargetSource;
+//import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -159,7 +159,6 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 	 * @see org.aopalliance.intercept.MethodInterceptor
 	 * @see org.springframework.aop.Advisor
 	 * @see org.aopalliance.aop.Advice
-	 * @see org.springframework.aop.target.SingletonTargetSource
 	 */
 	public void setInterceptorNames(String... interceptorNames) {
 		this.interceptorNames = interceptorNames;
@@ -586,7 +585,8 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 				logger.debug("Refreshing target with name '" + this.targetName + "'");
 			}
 			Object target = this.beanFactory.getBean(this.targetName);
-			return (target instanceof TargetSource ? (TargetSource) target : new SingletonTargetSource(target));
+			return  (TargetSource) target;
+//			return (target instanceof TargetSource ? (TargetSource) target : new SingletonTargetSource(target));
 		}
 	}
 
